@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+</head>
+<body>
+<form action="{:url('index/index/up')}" method="post" enctype="multipart/form-data">
+    选择文件：<input type="file" name="file">
+    <input type="submit" value="上传">
+</form>
+<img src="__PUBLIC__/uploads/icon/201611130821399227.png" width="60px" height="60px">
+
+<button onclick="go()">发射</button>
+
+<script type="text/javascript">
+function go() {
+//    var u = ;
+//    alert(u);
+    $.ajax({
+        type:"POST",
+        url:"{:url('index/index/getnewimg')}",
+        dataType:"json",
+        data:{
+            img:'aaaa'
+        },
+        success:function(msg){
+            alert(msg);
+        },
+        error:function(e){
+            alert("error"+e);
+        },
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建一个场次</title>
+    {load href="__PUBLIC__/static/css/jquery.datetimepicker.css" /}
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+    {load href="__PUBLIC__/static/js/jquery.datetimepicker.full.js" /}
+
+</head>
+<body>
+<nav class="navbar" role="navigation" id="nav" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<form class="form-horizontal" role="form" action="{:url('admin/Frequency/insert')}" method="post">
+
+    <div class="form-group">
+        <label for="screens_id" class="col-sm-2 control-label">放映厅</label>
+        <div class="col-sm-3">
+            {if condition="(count($screens)>0)"}
+            <select class="form-control" id="screens_id" name="screens_id">
+                {volist name="screens" id="item"}
+                <option value="{$item->getData('id')}">{$item->getData('name')}</option>
+                {/volist}
+            </select>
+            {else /}
+            <span class="form-control">还没有放映厅，<a href="{:url('admin/screens/home')}">去创建</a></span>
+            {/if}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="film_id" class="col-sm-2 control-label">电影</label>
+        <div class="col-sm-3">
+            {if condition="(count($films)>0)"}
+            <select class="form-control" id="film_id" name="film_id">
+                {volist name="films" id="item"}
+                <option value="{$item->getData('id')}">{$item->getData('title')}</option>
+                {/volist}
+            </select>
+            {else /}
+            <span class="form-control">还没有电影，<a href="{:url('admin/film/home')}">去创建</a></span>
+            {/if}
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="start_time" class="col-sm-2 control-label">开始时间</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="start_time" name="start_time">
+            <div class="">
+                <span class="help-block u-errormessage" id="time_error">&nbsp</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="end_time" class="col-sm-2 control-label">结束时间</label>
+        <div class="col-sm-3">
+            <!--<input type="text" >-->
+            <p class="form-control-static" id="end_time"></p>
+            <!--<span class="form-control"  ></span>-->
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-3">
+            <button type="submit" id="btn-post" class="btn btn-default" style="width: 360px" disabled>确定</button>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $.datetimepicker.setLocale('en');
+    $('#start_time').datetimepicker({
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '1986/01/05'
+    });
+    $('.some_class').datetimepicker();
+
+    //==========数据校验==============
+
+    $(function () {
+        $("#start_time").mouseout(function () {
+            var stime = document.getElementById('start_time').value;
+            var screens_id = document.getElementById('screens_id').value;
+            var film_id = document.getElementById("film_id").value;
+            if (stime != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/screens/isIdle')}",
+                    dataType: "json",
+                    data: {
+                        startTime: stime,
+                        screensId:screens_id,
+                        filmId:film_id
+                    },
+                    success: function (msg) {
+                        switch (msg){
+                            case "takeup":
+                                getlayout("time_error","场次开始时间已被占用！请重新设置！");
+                                $("#end_time").hide();
+                                $("#time_error").show();
+                                $("#btn-post").attr({"disabled":"disabled"});
+                                break;
+                            case "error(data=null)":
+                                getlayout("time_error","必须选一个影厅和一部电影");
+                                break;
+                            default:
+                                $("#end_time").empty();
+                                $("#end_time").append(
+                                        "<font  style='color:red;font-weight:bold;font-family:微软雅黑;font-size: 20px'>" + msg + "</font>"
+                                );
+                                $("#end_time").show();
+                                $("#time_error").hide();
+                                $("#btn-post").removeAttr("disabled");
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+
+    //获得错误html代码
+    function getlayout(elid,str) {
+        $("#" + elid).empty();
+        $("#" + elid).parent().removeClass("has-success");
+        $("#" + elid).parent().addClass("has-error");
+        $("#" + elid).append(
+                "<font style='color:red;font-weight:bold;'><span class='glyphicon glyphicon-remove'></span> " + str + "</font>"
+        );
+    }
+
+</script>
+</body>
+</html>

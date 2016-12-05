@@ -1,0 +1,138 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--{$film->getData('title')}-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影明细</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #F4F4F4;
+        }
+
+        section {
+            margin-bottom: 5px;
+        }
+
+        .padding {
+            padding-top: 30px;
+        }
+        nav#nav{
+            background:gainsboro;
+
+
+        }
+        nav#nav  ul li a:hover{
+            background: #ebebeb;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" id="nav" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class=" col-md-10 col-md-offset-1">
+    <div class="col-md-3 padding">
+        <img src="{$film->getData('cover')}" style="height: 290px;width: 230px"/>
+    </div>
+
+    <div class="col-md-8 padding">
+        <section class="title"><strong>{$film->getData('title')}</strong></section>
+        <section class="content"> 类型：{$film['label']['content']}</section>
+        <section class="content"> 时长：{$film['mins']}分钟</section>
+        <section class="price"> 价格：{$film->getData('price')} 元</section>
+        <section class="price"> 导演：{$film->getData('director')}</section>
+        <section class="price"> 演员：{$film->getData('actor')}</section>
+        <section class="show_time"> 上架时间：{:date('Y-m-d ',$film->getData('show_time'))}</section>
+        <section class="out_time">下架时间：{:date('Y-m-d ',$film->getData('out_time'))}</section>
+        <section class="synopsis">简介：{$film->getData('synopsis')}</section>
+        <div><a href="{:url('admin/film/edit?id='.$film->getData('id'))}">
+            <button class="btn btn-info">编辑</button>
+        </a>&nbsp;
+            <button class="btn btn-info" onclick="soldOut()">下架</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function soldOut() {
+
+        var r = confirm("你确定要下架此电影吗？")
+        if (r == true) {
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/film/soldOut')}",
+                dataType: "json",
+                data: {
+                    filmId: "{$film->getData('id')}"
+                },
+                success: function (msg) {
+//                alert(msg);
+                    if (msg == "succeed") {
+                        alert("下架成功！");
+                        location.reload();
+                    }
+                },
+            });
+        }
+    }
+</script>
+</body>
+</html>

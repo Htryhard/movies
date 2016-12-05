@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>影厅资源管理</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+
+    <style>
+        nav#nav{
+            background:gainsboro;
+        }
+        nav#nav  ul li a:hover{
+            background: #ebebeb;
+        }
+    </style>
+
+</head>
+
+<body>
+<nav class="navbar" role="navigation" id="nav" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<table class="table table-hover">
+    <thead>
+    <div style="padding: 100px 100px 10px;">
+
+        <form class="form-group" role="search">
+            <div class="col-sm-6">
+            <input type="text" class="form-control" name="name" placeholder="Search"
+            value="{:input('get.name')}">
+            </div>
+            <button type="submit" class="btn btn-success">确定查询</button>
+
+
+        <!--<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+            <!--<div class="modal-dialog">-->
+                <!--<div class="modal-content">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                        <!--<h4 class="modal-title" id="myModalLabe">模态框（Modal）标题</h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">在这里添加一些文本</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                        <!--<button type="button" class="btn btn-primary">提交更改</button>-->
+                    <!--</div>-->
+                <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+            <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+        <!--</div>-->
+        </form>
+
+
+        <button class="btn-primary btn-sm" data-toggle="modal" data-target="#add">添加影厅</button>
+            <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabe">
+                                添加
+                            </h4>
+
+                        </div>
+                        <form action="{:url('admin/screens/insert')}" id="formdata" method="post">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default" tabindex="-1">厅名:</button>
+                                            </div><!-- /btn-group -->
+
+                                            <input type="text" class="form-control" name="name" placeholder="请输入厅名">
+                                        </div><!-- /input-group -->
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default" tabindex="-1">行数:</button>
+                                            </div><!-- /btn-group -->
+                                            <input type="text" class="form-control" name="row" placeholder="请输入行数">
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default" tabindex="-1">列数:</button>
+                                            </div><!-- /btn-group -->
+                                            <input type="text" class="form-control" name="cols" placeholder="请输入列数">
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default" tabindex="-1">描述:</button>
+                                            </div><!-- /btn-group -->
+                                            <input type="text" class="form-control" name="describe" placeholder="请输入描述">
+                                        </div>
+
+                                    </div><!-- /.col-lg-6 -->
+                                </div><!-- /.row -->
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-default" data-dismiss="modal">关闭
+                                    </button>
+                                    <button type="button" class="btn btn-primary" onclick="postData()" value="提交">
+                                        提交更改
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!-- /.modal-content -->
+
+                </div><!-- /.modal -->
+
+            </div>
+
+
+
+
+
+    <tr>
+        <th>序号</th>
+        <th>名称</th>
+        <th>空间（行*列）</th>
+        <th>描述</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+    {volist name="screens" id="screen" key="key"}
+    <tr>
+        <td>{$key}</td>
+        <td>{$screen->getData('name')}</td>
+        <td>{$screen->getData('row')} * {$screen->getData('cols')}</td>
+        <td>{$screen->getData('describe')}</td>
+        <td>
+            <a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $screen->getData('id'))}">
+                <i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>&nbsp;
+            <a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $screen->getData('id'))}"
+               data-toggle="modal" data-target="#myModal">
+                <i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
+        </td>
+    </tr>
+    {/volist}
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        编辑
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="update_form">
+                        <input type="hidden" name="screenId" value="{$screen->getData('id')}">
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" name="name" value="{$screen->getData('name')}">
+                        </div>
+                        <div class="form-group">
+                            <label>空间(行*列)</label>
+                            <input type="text" name="row" value="{$screen->getData('row')}">
+                            *
+                            <input type="text" name="cols" value="{$screen->getData('cols')}">
+                        </div>
+                        <div class="form-group">
+                            <label>描述</label>
+                            <!--<input type="text" name="describe" value="{$screen->getData('describe')}" rows="3">-->
+                            <textarea class="form-control" name="describe" rows="3">
+                        {$screen->getData('describe')}
+                        </textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="postUpdate()">
+                                提交更改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+
+        </div><!-- /.modal -->
+
+    </div>
+
+    </tbody>
+</table>
+
+
+<script>
+    function postData() {
+        $.ajax({
+            type: "POST",
+            url: "{:url('admin/screens/insert')}",
+            dataType: "json",
+            data: {
+                formdata: $('#formdata').serializeArray()
+            },
+            success: function (msg) {
+                alert(msg);
+                location.reload();
+            },
+        });
+    }
+    
+    function postUpdate() {
+        $.ajax({
+            type: "POST",
+            url: "{:url('admin/screens/update')}",
+            dataType: "json",
+            data: {
+                formdata: $('#update_form').serializeArray()
+            },
+            success: function (msg) {
+                alert(msg);
+                location.reload();
+            },
+        });
+    }
+</script>
+</body>
+
+</html>

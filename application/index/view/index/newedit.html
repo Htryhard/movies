@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Crop Box</title>
+    {load href="__PUBLIC__/static/css/cropbox.css" /}
+    {load href="__PUBLIC__/static/js/cropbox-min.js" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    <style>
+        .container
+        {
+            position: absolute;
+            top: 10%; left: 10%; right: 0; bottom: 0;
+        }
+        .action
+        {
+            width: 400px;
+            height: 30px;
+            margin: 10px 0;
+        }
+        .cropped>img
+        {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="imageBox">
+        <div class="thumbBox"></div>
+        <div class="spinner" style="display: none">Loading...</div>
+    </div>
+    <div class="action">
+        <input type="file" id="file" style="float:left; width: 250px">
+        <input type="button" id="btnCrop" value="Crop" style="float: right">
+        <input type="button" id="btnZoomIn" value="+" style="float: right">
+        <input type="button" id="btnZoomOut" value="-" style="float: right">
+    </div>
+    <div class="cropped">
+
+    </div>
+</div>
+<form action="{:url('index/index/getnewimg')}" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="" id="hn" name="hi">
+    <input type="submit" id="tijiao" value="提交">
+</form>
+<script type="text/javascript">
+    window.onload = function() {
+        var options =
+        {
+            imageBox: '.imageBox',
+            thumbBox: '.thumbBox',
+            spinner: '.spinner',
+            imgSrc: '__PUBLIC__/static/images/avatar.png'
+        }
+        var cropper = new cropbox(options);
+        document.querySelector('#file').addEventListener('change', function(){
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                cropper = new cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        })
+        document.querySelector('#btnCrop').addEventListener('click', function(){
+            var img = cropper.getDataURL();
+//            document.querySelector('.cropped').innerHTML += '<img src="'+img+'">';
+//            $('#hiddencolor').val(img);
+//-----------------------------------------
+            $.ajax({
+                type:"POST",
+                url:"{:url('index/index/getnewimg')}",
+                dataType:"json",
+                data:{
+                    img:img
+                },
+                success:function(msg){
+                    alert(msg);
+                },
+//                error:function(e){
+//                    alert("error"+e);
+//                },
+            });
+//-------------------------------------
+
+        })
+        document.querySelector('#btnZoomIn').addEventListener('click', function(){
+            cropper.zoomIn();
+        })
+        document.querySelector('#btnZoomOut').addEventListener('click', function(){
+            cropper.zoomOut();
+        })
+    };
+</script>
+
+</body>
+</html>

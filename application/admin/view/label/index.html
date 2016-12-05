@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>标签列表</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>标签ID</td>
+        <td>内容</td>
+        <td>操作</td>
+    </tr>
+    {volist name="labels" id="item" key="key"}
+        <tr>
+            <td>{$item->getData('id')}</td>
+            <td>{$item->getData('content')}</td>
+            <td><a href="{:url('admin/label/delete?id='.$item->getData('id'))}">删除</a>
+                <a href="{:url('admin/label/edit?id='.$item->getData('id'))}">编辑</a></td>
+        </tr>
+    {/volist}
+</table>
+</body>
+</html>

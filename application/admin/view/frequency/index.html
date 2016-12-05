@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>所有场次</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+    <style>
+        nav#nav {
+            background: gainsboro;
+        }
+
+        nav#nav ul li a:hover {
+            background: #ebebeb;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar" role="navigation" id="nav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span> 电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span> 影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span> 员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span> 电影场次安排
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/insert')}"><span class="glyphicon glyphicon-plus">创建一个场次</span></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a>
+                </li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>片名</th>
+        <th>影厅</th>
+        <th>开始时间</th>
+        <!--<th>结束时间</th>-->
+        <th>时长（分钟）</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="frequencys" id="item" key="key"}
+    <tr>
+        <td>{$key}</td>
+        <td>{$item['film']['title']}</td>
+        <td>{$item['screens']['name']}</td>
+        <td>{:date('Y-m-d H:i',$item->getData('start_time'))}</td>
+        <!--<td>{://common\Communal::getEndTime($item['film']['id'],date('Y-m-d H:i',$item->getData('start_time')))}</td>-->
+        <td>{$item['film']['mins']}</td>
+        <td>
+            <a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $item->getData('id'))}">
+                <i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>&nbsp;
+            <a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $item->getData('id'))}"
+               data-toggle="modal" data-target="#myModal">
+                <i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div class="col-md-offset-5">{$frequencys->render()}</div>
+</body>
+</html>

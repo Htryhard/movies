@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加权限</title>
+    <style>
+        nav#nav{
+            background:gainsboro;
+        }
+        nav#nav  ul li a:hover{
+            background: #ebebeb;
+        }
+    </style>
+</head>
+
+<body style="background: #F4F4F4">
+
+<nav class="navbar" role="navigation" id="nav" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div style="margin: 0 auto;width: 300px;margin-top:150px;border: 1px solid silver;background: #87CEEB;">
+        <p style="text-align: center;border-bottom: 1px solid silver;margin: 5px 0 5px 0;font-size: 20px;">添加权限</p>
+        <form action="{:url('admin/staff/addPermission')}" method="post" style="margin: 20px;">
+            描述：<input type="text" name="title" style="width: 195px;height: 25px;"><br/>
+            规则：<input type="text" name="condition" style="width: 195px;height: 25px;"><br/>
+            <input type="submit" value="提交" style="width: 55px;height: 30px;margin-top: 5px;">
+        </form>
+    </div>
+
+
+<!--<form action="{:url('admin/staff/addPermission')}" method="post">-->
+<!--描述：<input type="text" name="title"><br/>-->
+    <!--规则：<input type="text" name="condition"><br/>-->
+    <!--<input type="submit" value="提交">-->
+<!--</form>-->
+</body>
+</html>
+

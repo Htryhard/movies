@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>全部电影</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+
+<style>
+    .top_top{
+        background:  skyblue;
+
+    }
+    .top_top ul{
+
+        margin-right: 0px;
+    }
+    body{
+        background: #F4F4F4;
+        }
+    .title{
+        overflow: hidden;   /*超出的隐藏掉*/
+        text-overflow: ellipsis; /*超出的用....*/
+        white-space: nowrap;   /*不换行*/
+        }
+    .synopsis{
+        color: #9d9d9d;
+        overflow: hidden;   /*超出的隐藏掉*/
+        text-overflow: ellipsis; /*超出的用....*/
+        white-space: nowrap;   /*不换行*/
+    }
+    .conten_margin{
+        margin-bottom: 10px;
+        margin-right: 10px;
+        width: 186px;
+        float: left;
+    }
+    .bottom{
+        text-align: center;
+        height: 90px;
+        background: skyblue;
+    }
+    .bottom ul{
+        margin-bottom: 8px;
+    }
+    .bottom ul li{
+        display: inline-block;
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+    .bottom ul li a{
+        color: #000000;
+        font-size: 16px;
+    }
+    .bottom p{
+        color: #000000;
+        font-size: 15px;
+    }
+    .btm_img{
+        text-overflow: ellipsis; /*超出的用....*/
+        white-space: nowrap;   /*不换行*/
+    }
+    nav#nav{
+        background:gainsboro;
+
+
+    }
+    nav#nav  ul li a:hover{
+        background: #ebebeb;
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" id="nav" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="{:url('admin/film/insert')}">
+                        <span class="glyphicon glyphicon-plus"></span>添加电影
+                    </a>
+                </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" >
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<!--<button class="btn btn-info" onclick="toInsertFilm()">添加电影</button>-->
+<!--<div class="row col-md-offset-1" ></div>-->
+<div class="centen ">
+    <div class="row col-md-1" ></div>
+    <div class="col-md-11">
+            {volist name="films" id="item" key="key"}
+            <div class="conten_margin col-md-">
+                <a href="{:url('admin/film/detail?id='.$item->getData('id'))}">
+                    <img src="{$item->getData('cover')}" style="height: 220px;width: 180px" /></a>
+                <section class="title">{$item->getData('title')}</section>
+                <section class="synopsis">简介：{$item->getData('synopsis')}</section>
+            </div>
+            {/volist}
+    </div>
+</div>
+
+<div class="col-md-offset-5">{$films->render()}</div>
+
+    <div class="bottom">
+        <ul>
+            <li><a href="#">版权信息</a></li>
+            <li><a href="#">站点地图</a></li>
+            <li><a href="#">联系我们</a></li>
+        </ul>
+        <p class="glyphicon glyphicon-phone-alt">:18407723292  QQ:1253783434</p>
+    </div>
+
+<script>
+    function toInsertFilm() {
+        window.location="{:url('admin/film/insert')}";
+    }
+</script>
+</body>
+</html>

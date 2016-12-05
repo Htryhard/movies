@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>影院管理系统</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+    <style>
+        #ulimg{
+            height: 85px;
+        }
+        #fangxialai{
+           line-height: 85px;
+        }
+        #fangxialai1{
+
+        }
+        /*4个按钮*/
+        .buttonbtn{
+            margin: 0 auto;
+            width: 410px;
+            background: red;
+        }
+        #a{
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+        #b{
+            width: 200px;
+            height: 200px;
+            float: left;
+
+        }
+        #c{
+            width: 200px;
+            height: 200px;
+            float: left;
+
+
+        }
+        #d{
+            width: 200px;
+            height: 200px;
+            float: left;
+
+        }
+        /*#a:hover{*/
+            /*width: 250px;*/
+            /*height: 250px;*/
+        /*}*/
+
+        /* 版权信息*/
+        .footer_werapper{
+            height: 116px;
+            background-color: #C1C8D8;
+            margin-top: 461px;
+            padding: 40px 0px;
+        }
+        .footer_werapper li{
+            display: inline-block;
+            vertical-align: top;
+            border-right: solid 1px #FFFFFF;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .footer_werapper li:last-child{
+            border: 0;/*去掉最后一个分割线....*/
+        }
+        .footer_werapper footer{
+            text-align: center;
+        }
+        .footer_werapper a{
+            color: #FFFFFF;
+            text-decoration: none;/*去掉下划线....*/
+        }
+        .footer_werapper p{
+            color: #FFFFFF;
+            margin-top: 10px;
+        }
+        nav#nav{
+            background:gainsboro;
+        }
+        nav#nav  ul li a:hover{
+            background: #ebebeb;
+        }
+
+    </style>
+</head>
+<body style="background: #F4F4F4;">
+
+<nav class="navbar" role="navigation" id="nav" >
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div style="height: 50px"></div>
+    <div class="buttonbtn">
+        <!-- 电影资源管理 -->
+        <button type="button" class="btn btn-primary" onclick="toFilm()" id="a">电影资源管理</button>
+        <!-- 影厅资源管理 -->
+        <button type="button" class="btn btn-success" onclick="toScreens()" id="b">影厅资源管理</button>
+        <!-- 员工资源管理 -->
+        <button type="button" class="btn btn-info" onclick="toStaff()" id="c">员工资源管理</button>
+        <!-- 实体票校验 -->
+        <button type="button" class="btn btn-warning" onclick="verify()" id="d">电影场次安排</button>
+    </div>
+
+
+</body>
+<script>
+    function toFilm() {
+        var url ="{:url('admin/film/home')}";
+        window.location=url;
+    }
+    function toScreens() {
+        var url ="{:url('admin/screens/home')}";
+        window.location=url;
+    }
+    function toStaff() {
+        window.location="{:url('admin/staff/index')}";
+    }
+    function verify() {
+        window.location="{:url('admin/Frequency/index')}";
+    }
+</script>
+</html>

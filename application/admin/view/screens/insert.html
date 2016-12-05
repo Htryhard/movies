@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加影厅</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+</head>
+<body>
+<form action="{:url('admin/screens/insert')}" id="formdata" method="post">
+    <label>厅名：</label>
+    <input type="text" name="name"><br/>
+    <label>行数：</label>
+    <input type="number" name="row"><br/>
+    <label>列数：</label>
+    <input type="number" name="cols"><br/>
+    <label>描述：</label>
+    <textarea name="describe" rows="4" cols="18"></textarea><br/>
+    <input type="button" onclick="postData()" value="提交"/>
+</form>
+
+<script>
+    function postData() {
+        $.ajax({
+            type:"POST",
+            url:"{:url('admin/screens/insert')}",
+            dataType:"json",
+            data:{
+                formdata:$('#formdata').serializeArray()
+            },
+            success:function(msg){
+                    alert(msg);
+            },
+        });
+    }
+</script>
+
+</body>
+</html>
