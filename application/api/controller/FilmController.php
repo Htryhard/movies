@@ -30,6 +30,10 @@ class FilmController extends Controller
         }
     }
 
+    /**
+     * 根据条件获取指定电影
+     * @return \think\response\Json
+     */
     public function getFilmWhere(){
         $film = new Film();
         $where = Request::instance()->get("where");
