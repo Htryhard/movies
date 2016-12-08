@@ -15,12 +15,14 @@ use app\common\model\User;
 use think\Controller;
 use think\Log;
 use think\Request;
+use think\Response;
 
 class UserController extends Controller
 {
 
     public function login()
     {
+        header ("Cache-Control: no-cache");
         $data = Request::instance()->param();
         $email = $data['email'];
         $password = $data['password'];
@@ -29,6 +31,7 @@ class UserController extends Controller
             return json($user);
         }
         return ('{"msg":"邮箱或密码错误","state":404}');
+
     }
 
     public function register()
@@ -87,7 +90,8 @@ class UserController extends Controller
         }
     }
 
-    public function edit(){
+    public function edit()
+    {
         header('Content-Type: image/jpg; charset=utf-8');
         $userdata = Request::instance()->post();
         if ($userdata != "") {
@@ -106,12 +110,12 @@ class UserController extends Controller
 //            }
             //验证必填信息
             $user = User::get($id);
-            if ($user==null){
+            if ($user == null) {
                 return json(300);
             }
             $user->email = $email;
             $user->username = $username;
-            if ($password != ""){
+            if ($password != "") {
                 $user->password = User::encryptPassword($password);
             }
             $user->phone = $phone;
