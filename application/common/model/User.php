@@ -22,6 +22,10 @@ class User extends Model
         return $this->hasMany('auth');
     }
 
+    public function orders(){
+        return $this->hasMany('order','user_id','id');
+    }
+
     /**
      * 获取器
      * @param $value

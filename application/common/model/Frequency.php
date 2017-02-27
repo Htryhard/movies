@@ -23,4 +23,8 @@ class Frequency extends Model
         return $this->belongsTo('screens');
     }
 
+    public function orders(){
+        return $this->hasMany('order','frequency_id','id');
+    }
+
 }

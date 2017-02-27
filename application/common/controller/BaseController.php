@@ -11,6 +11,7 @@ namespace app\common\controller;
 
 use app\common\Communal;
 use app\common\model\Auth;
+use app\common\model\Count;
 use app\common\model\Rule;
 use app\common\model\User;
 use think\Controller;
@@ -25,6 +26,14 @@ class BaseController extends Controller
     {
         parent::__construct();
         $this->request = $request;
+
+        $requestIP =Communal::getClientIP();
+        $requestDate = time();
+        $count = new Count();
+        $count->ipcontent = $requestIP;
+        $count->date = $requestDate;
+        $count->save();
+
         // 验证用户是否登陆
         if (!User::isLogin()) {
             $this->redirect(url('home/thing/login'));

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户数据</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+
+    <style>
+        #ulimg{
+            height: 85px;
+        }
+        #fangxialai{
+            line-height: 85px;
+        }
+        #fangxialai1{
+
+        }
+        /*4个按钮*/
+        .buttonbtn{
+            margin: 0 auto;
+            width: 410px;
+            background: red;
+        }
+        #a{
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+        #b{
+            width: 200px;
+            height: 200px;
+            float: left;
+
+        }
+        #c{
+            width: 200px;
+            height: 200px;
+            float: left;
+
+
+        }
+        #d{
+            width: 200px;
+            height: 200px;
+            float: left;
+
+        }
+        /*#a:hover{*/
+        /*width: 250px;*/
+        /*height: 250px;*/
+        /*}*/
+
+        /* 版权信息*/
+        .footer_werapper{
+            height: 116px;
+            background-color: #C1C8D8;
+            margin-top: 461px;
+            padding: 40px 0px;
+        }
+        .footer_werapper li{
+            display: inline-block;
+            vertical-align: top;
+            border-right: solid 1px #FFFFFF;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .footer_werapper li:last-child{
+            border: 0;/*去掉最后一个分割线....*/
+        }
+        .footer_werapper footer{
+            text-align: center;
+        }
+        .footer_werapper a{
+            color: #FFFFFF;
+            text-decoration: none;/*去掉下划线....*/
+        }
+        .footer_werapper p{
+            color: #FFFFFF;
+            margin-top: 10px;
+        }
+        nav#nav{
+            background:gainsboro;
+        }
+        nav#nav  ul li a:hover{
+            background: #ebebeb;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar" role="navigation" id="nav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">疯狂影院</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{:url('admin/home/index')}"> <span class="glyphicon glyphicon-home"></span>首页
+                </a></li>
+                <li class="active">
+                    <a href="{:url('admin/film/home')}">
+                        <span class="glyphicon glyphicon-folder-close"></span> 电影资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/Screens/home')}">
+                        <span class="glyphicon glyphicon-bullhorn"></span> 影厅资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/staff/index')}">
+                        <span class="glyphicon glyphicon-user"></span> 员工资源管理
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/index')}">
+                        <span class="glyphicon glyphicon-heart"></span> 电影场次安排
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{:url('admin/frequency/insert')}"><span class="glyphicon glyphicon-plus">创建一个场次</span></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
+                40px;height: 40px">
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a>
+                </li>
+                <li><a href="{:url('home/user/logout')}">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="btn-group">
+    &numsp;&numsp;&numsp;&numsp;&numsp;&numsp;
+    <a href="{:url('admin/home/userDataShow')}">
+        {if condition="($DataType == 'userDataShow')"}
+        <input type="radio" name="type" checked>
+        {else /}
+        <input type="radio" name="type">
+        {/if}
+        用户数据分析
+    </a>&numsp;&numsp;&numsp;&numsp;&numsp;&numsp;
+
+
+    <a href="{:url('admin/home/filmDataShow')}">
+        {if condition="($DataType == 'filmDataShow')"}
+        <input type="radio" name="type" checked>
+        {else /}
+        <input type="radio" name="type">
+        {/if}
+        电影数据分析
+    </a>&numsp;&numsp;&numsp;&numsp;&numsp;&numsp;
+
+    <a href="{:url('admin/home/frequencyDataShow')}">
+        {if condition="($DataType == 'frequencyDataShow')"}
+        <input type="radio" name="type" checked>
+        {else /}
+        <input type="radio" name="type">
+        {/if}
+        场次数据分析
+    </a>&numsp;&numsp;&numsp;&numsp;&numsp;&numsp;
+    <a href="{:url('admin/home/orderDataShow')}">
+        {if condition="($DataType == 'orderDataShow')"}
+        <input type="radio" name="type" checked>
+        {else /}
+        <input type="radio" name="type">
+        {/if}
+        订单数据分析
+    </a>&numsp;&numsp;&numsp;&numsp;&numsp;&numsp;
+</div>
+
+<hr/>
+<div class="row">
+    <div class="col-md-8">
+        <form class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="name">场次开始时间</label>
+                <input name="startTime" type="text" id="name" class="form-control" placeholder="场次开始时间..."
+                       value="{:input('get.startTime')}">
+            </div>
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>&nbsp;查询</button>
+        </form>
+    </div>
+</div>
+<hr/>
+
+
+<h4><b>场次数量： {$countFrequency} &numsp;&numsp;&numsp;&numsp;&numsp;&numsp;
+    <i style="color: red">
+        金额合计：
+        ￥{$boxOffice}.00
+    </i>
+</b></h4>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>场次开始时间</th>
+        <th>场次结束时间</th>
+        <th>时长</th>
+        <th>影厅</th>
+        <th>上映影片</th>
+        <th>影片单价</th>
+        <th>订单数量</th>
+        <th>用户累计消费金额</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="frequencies" id="item" key="key"}
+    <tr>
+        <td>{$key}</td>
+        <td>{:date('Y-m-d H:m:i',$item->getData('start_time'))}</td>
+        <td>
+            {php}
+                $endTime = $item['start_time']+($item['film']['mins']*60);
+            echo date('Y-m-d H:m:i',$endTime);
+            {/php}
+        </td>
+        <td>{$item['film']['mins']}分钟</td>
+        <td>{$item['screens']['name']}</td>
+        <td>{$item['film']['title']}</td>
+        <td>  <i style="color: red">￥{$item['film']['price']}.00</i></td>
+        <td>{:count($item['orders'])}</td>
+        <td><i style="color: red">
+            {php}
+            $p = 0;
+            foreach($item['orders'] as $order){
+                $p += $order['number']*$item['film']['price'];
+            }
+                echo "￥".$p.".00";
+            {/php}
+            </i>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div class="col-md-offset-5">{$frequencies->render()}</div>
+</body>
+</html>

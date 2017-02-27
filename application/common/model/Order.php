@@ -14,4 +14,16 @@ use think\Model;
 class Order extends Model
 {
 
+    public function user(){
+        return $this->belongsTo('user');
+    }
+
+    public function frequency(){
+        return $this->belongsTo('frequency');
+    }
+
+    public function places(){
+        return $this->hasMany('place','order_id','id');
+    }
+
 }

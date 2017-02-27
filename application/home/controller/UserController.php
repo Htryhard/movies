@@ -14,6 +14,27 @@ use app\common\model\User;
 
 class UserController extends BaseController
 {
+    public function index(){
+// 获取查询信息
+        $name = input('get.username');
+        $pageSize = 15; // 每页显示15条数据
+        $user = new User();
+        // 定制查询信息
+        if (!empty($name)) {
+            $users = $user->where('username', 'like', '%' . $name . '%')->paginate($pageSize, false,
+                [
+                    'query' => [
+                        'username' => $name,
+                    ],
+                ]);
+        } else {
+            $users = $user->paginate($pageSize);
+        }
+        $this->assign("user",User::getUserBySession());
+        $this->assign('users', $users);
+        return $this->fetch();
+    }
+
     public function logout(){
         User::logOut();
         $this->redirect("home/thing/login");

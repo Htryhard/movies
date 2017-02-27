@@ -11,6 +11,7 @@ namespace app\home\controller;
 
 use app\common\Communal;
 use app\common\model\Auth;
+use app\common\model\Count;
 use app\common\model\User;
 use think\captcha\Captcha;
 use think\Controller;
@@ -20,6 +21,12 @@ class ThingController extends Controller
 {
     public function login()
     {
+        return $this->fetch();
+    }
+
+    public function showIP(){
+        $counts = Count::all();
+        $this->assign("counts",$counts);
         return $this->fetch();
     }
 

@@ -2,19 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>所有场次</title>
+    <title>Title</title>
     {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
     {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
     {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
-    <style>
-        nav#nav {
-            background: gainsboro;
-        }
-
-        nav#nav ul li a:hover {
-            background: #ebebeb;
-        }
-    </style>
 </head>
 <body>
 <nav class="navbar" role="navigation" id="nav">
@@ -61,42 +52,42 @@
         </div>
     </div>
 </nav>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="name">姓名</label>
+                <input name="name" type="text" id="name" class="form-control" placeholder="姓名..." value="{:input('get.username')}">
+            </div>
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i>&nbsp;查询</button>
+        </form>
+    </div>
+</div>
+<hr />
 
 <table class="table table-hover">
     <thead>
     <tr>
         <th>序号</th>
-        <th>片名</th>
-        <th>影厅</th>
-        <th>开始时间</th>
-        <!--<th>结束时间</th>-->
-        <th>时长（分钟）</th>
-        <th>操作</th>
+        <th>邮箱</th>
+        <th>姓名</th>
+        <th>联系方式</th>
+        <th>订单数量</th>
     </tr>
     </thead>
     <tbody>
-    {volist name="frequencys" id="item" key="key"}
+    {volist name="users" id="item" key="key"}
     <tr>
         <td>{$key}</td>
-        <td>{$item['film']['title']}</td>
-        <td>{$item['screens']['name']}</td>
-        <td>{:date('Y-m-d H:i',$item->getData('start_time'))}</td>
-        <!--<td>{://common\Communal::getEndTime($item['film']['id'],date('Y-m-d H:i',$item->getData('start_time')))}</td>-->
-        <td>{$item['film']['mins']}</td>
-        <td>
-            <a class="btn btn-danger btn-sm" href="{:url('delete?id=' . $item->getData('id'))}">
-                <i class="glyphicon glyphicon-trash"></i>&nbsp;删除</a>&nbsp;
-            <a class="btn btn-sm btn-primary" href="{:url('edit?id=' . $item->getData('id'))}"
-               data-toggle="modal" data-target="#myModal">
-                <i class="glyphicon glyphicon-pencil"></i>&nbsp;编辑</a>
-
-            <a class="btn btn-sm btn-primary" href="{:url('showOrder?id=' . $item->getData('id'))}">
-                <i class="glyphicon glyphicon-pencil"></i>&nbsp;查看订单</a>
-        </td>
+        <td>{$item->getData('email')}</td>
+        <td><a href="{:url('home/user/read?userId=' . $item['id'])}">{$item['username']}</a></td>
+        <td>{$item['phone']}</td>
+        <td>{:count($item['orders'])}</td>
     </tr>
     {/volist}
     </tbody>
 </table>
-<div class="col-md-offset-5">{$frequencys->render()}</div>
+
 </body>
 </html>

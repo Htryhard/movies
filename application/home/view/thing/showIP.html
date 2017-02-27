@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {load href="__PUBLIC__/static/bootstrap/css/bootstrap.min.css" /}
+    {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
+    {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
+</head>
+<body>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>IP</th>
+        <th>访问时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="counts" id="item" key="key"}
+    <tr>
+        <td>{$key}</td>
+        <td>{$item['ipcontent']}</td>
+        <td>{:date('Y年m月d日 H:i:s',$item->getData('date'))}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+</body>
+</html>

@@ -8,23 +8,24 @@
     {load href="__PUBLIC__/static/js/jquery-3.1.1.min.js" /}
     {load href="__PUBLIC__/static/bootstrap/js/bootstrap.min.js" /}
     {load href="__PUBLIC__/static/js/jquery.datetimepicker.full.js" /}
-<style>
-    body{
-        /*background:url("../../../uploads/film/tianjiadianying.jpg");*/
-        background: #F4F4F4;
-    }
-    nav#nav{
-        background:gainsboro;
+    <style>
+        body {
+            /*background:url("../../../uploads/film/tianjiadianying.jpg");*/
+            background: #F4F4F4;
+        }
 
+        nav#nav {
+            background: gainsboro;
 
-    }
-    nav#nav  ul li a:hover{
-        background: #ebebeb;
-    }
-</style>
+        }
+
+        nav#nav ul li a:hover {
+            background: #ebebeb;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar" role="navigation" id="nav" >
+<nav class="navbar" role="navigation" id="nav">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">疯狂影院</a>
@@ -35,30 +36,31 @@
                 </a></li>
                 <li class="active">
                     <a href="{:url('admin/film/home')}">
-                        <span class="glyphicon glyphicon-folder-close"></span>   电影资源管理
+                        <span class="glyphicon glyphicon-folder-close"></span> 电影资源管理
                     </a>
                 </li>
                 <li class="active">
                     <a href="{:url('admin/Screens/home')}">
-                        <span class="glyphicon glyphicon-bullhorn"></span>   影厅资源管理
+                        <span class="glyphicon glyphicon-bullhorn"></span> 影厅资源管理
                     </a>
                 </li>
                 <li class="active">
                     <a href="{:url('admin/staff/index')}">
-                        <span class="glyphicon glyphicon-user"></span>    员工资源管理
+                        <span class="glyphicon glyphicon-user"></span> 员工资源管理
                     </a>
                 </li>
                 <li class="active">
                     <a href="{:url('admin/frequency/index')}">
-                        <span class="glyphicon glyphicon-heart"></span>   电影场次安排
+                        <span class="glyphicon glyphicon-heart"></span> 电影场次安排
                     </a>
                 </li>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right" >
+            <ul class="nav navbar-nav navbar-right">
                 <img src="__PUBLIC__{$user->getData('icon')}" class="img-circle" style="width:
                 40px;height: 40px">
-                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a></li>
+                <li><a href="{:url('home/user/read?userId='.$user->getData('id'))}">你好！{$user->getData('username')}</a>
+                </li>
                 <li><a href="{:url('home/user/logout')}">注销</a></li>
 
             </ul>
@@ -68,90 +70,91 @@
 
 <div class=" col-md-10 col-md-offset-1">
     <form role="form" enctype="multipart/form-data" action="{:url('admin/film/insert')}" id="formdata" method="post">
-        <h3 style="padding-bottom: 30px">添加电影 &nbsp;&nbsp;&nbsp;<button type="submit"  class="btn btn-default">提交</button></h3>
+        <h3 style="padding-bottom: 30px">添加电影 &nbsp;&nbsp;&nbsp;
+            <button type="submit" class="btn btn-default">提交</button>
+        </h3>
 
         <div class="col-md-8 padding">
-        <div class="form-group">
-        <label for="title" class="col-sm-3 control-label">电影名称</label>
-        <div class="col-sm-9">
-        <input type="text" class="form-control" name="title" id="title" placeholder="请输入名称">
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="title" class="col-sm-3 control-label">电影名称</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="请输入名称">
+                </div>
+            </div>
 
-        <div class="form-group">
-        <label for="label_id" class="col-sm-3 control-label">电影标签</label>
-        <div class="col-sm-9">
-        {if condition="(count($labels)>0)"}
-        <select class="form-control" id="label_id" name="label_id">
-        {volist name="labels" id="item"}
-        <option value="{$item->getData('id')}">{$item->getData('content')}</option>
-        {/volist}
-        </select>
-        {else /}
-        <span class="form-control">还没有标签，<a href="{:url('admin/label/insert')}">去创建</a></span>
-        {/if}
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="label_id" class="col-sm-3 control-label">电影标签</label>
+                <div class="col-sm-9">
+                    {if condition="(count($labels)>0)"}
+                    <select class="form-control" id="label_id" name="label_id">
+                        {volist name="labels" id="item"}
+                        <option value="{$item->getData('id')}">{$item->getData('content')}</option>
+                        {/volist}
+                    </select>
+                    {else /}
+                    <span class="form-control">还没有标签，<a href="{:url('admin/label/insert')}">去创建</a></span>
+                    {/if}
+                </div>
+            </div>
 
-        <div class="form-group">
-        <label for="mins" class="col-sm-3 control-label">电影时长(分钟)</label>
-        <div class="col-sm-9">
-        <input type="number" class="form-control" name="mins" id="mins" placeholder="请输入时长">
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="mins" class="col-sm-3 control-label">电影时长(分钟)</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" name="mins" id="mins" placeholder="请输入时长">
+                </div>
+            </div>
 
-        <div class="form-group">
-        <label for="price" class="col-sm-3 control-label">电影价格(元)</label>
-        <div class="col-sm-9">
-        <input type="number" class="form-control" id="price" name="price" placeholder="请输入电影价格">
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="price" class="col-sm-3 control-label">电影价格(元)</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="price" name="price" placeholder="请输入电影价格">
+                </div>
+            </div>
 
-        <div class="form-group">
-        <label for="director" class="col-sm-3 control-label">导演</label>
-        <div class="col-sm-9">
-        <input type="text" class="form-control" name="director" id="director" placeholder="请输入导演">
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="director" class="col-sm-3 control-label">导演</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="director" id="director" placeholder="请输入导演">
+                </div>
+            </div>
 
-        <div class="form-group">
-        <label for="actor" class="col-sm-3 control-label">演员</label>
-        <div class="col-sm-9">
-        <input type="text" class="form-control" name="actor" id="actor" placeholder="请输入演员">
-        </div>
-        </div>
-
-
-
-        <div class="form-group">
-        <label for="show_time" class="col-sm-3 control-label">电影上映时间</label>
-        <div class="col-sm-9">
-        <input type="text" class="form-control" id="show_time" name="show_time" >
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="actor" class="col-sm-3 control-label">演员</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="actor" id="actor" placeholder="请输入演员">
+                </div>
+            </div>
 
 
-        <div class="form-group">
-        <label for="out_time" class="col-sm-3 control-label">电影下架时间</label>
-        <div class="col-sm-9">
-        <input type="text" class="form-control" id="out_time" name="out_time" >
-        </div>
-        </div>
+            <div class="form-group">
+                <label for="show_time" class="col-sm-3 control-label">电影上映时间</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="show_time" name="show_time">
+                </div>
+            </div>
 
-        <div class="form-group">
-        <label for="synopsis" class="col-sm-3 control-label">电影简介</label>
-        <div class="col-sm-9">
-        <textarea class="form-control" id="synopsis" name="synopsis" cols="50" rows="3"></textarea>
-        </div>
-        </div>
 
-        <!--<div class="form-group">-->
-        <!--<div class="col-sm-offset-2 col-sm-6">-->
-        <!--<br/>-->
-        <!--<button type="submit"  class="btn btn-default">提交</button>-->
-        <!--</div>-->
-        <!--</div>-->
-    </div>
+            <div class="form-group">
+                <label for="out_time" class="col-sm-3 control-label">电影下架时间</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="out_time" name="out_time">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="synopsis" class="col-sm-3 control-label">电影简介</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="synopsis" name="synopsis" cols="50" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!--<div class="form-group">-->
+            <!--<div class="col-sm-offset-2 col-sm-6">-->
+            <!--<br/>-->
+            <!--<button type="submit"  class="btn btn-default">提交</button>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
         <div class="col-md-3 padding">
             <p class="help-block" style="margin-top: -10px;font-family: '楷体', '微软雅黑';font-size: 40px">选择电影封面</p>
             <!--<input type="file" name="cover" id="cover" multiple="multiple" /><br>-->
@@ -236,17 +239,17 @@
     //========时钟插件==========
     $.datetimepicker.setLocale('en');
     $('#out_time').datetimepicker({
-        dayOfWeekStart : 1,
-        lang:'en',
-        disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
-        startDate:	'1986/01/05'
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '1986/01/05'
     });
 
     $('#show_time').datetimepicker({
-        dayOfWeekStart : 1,
-        lang:'en',
-        disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
-        startDate:	'1986/01/05'
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '1986/01/05'
     });
     $('.some_class').datetimepicker();
 

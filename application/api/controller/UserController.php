@@ -9,6 +9,7 @@
 namespace app\api\controller;
 
 
+use app\common\aliyun\top\request\AlibabaAliqinFcSmsNumSendRequest;
 use app\common\Communal;
 use app\common\controller\BaseController;
 use app\common\model\User;
@@ -16,6 +17,7 @@ use think\Controller;
 use think\Log;
 use think\Request;
 use think\Response;
+use app\common\aliyun\top\TopClient;
 
 class UserController extends Controller
 {
@@ -32,6 +34,50 @@ class UserController extends Controller
         }
         return ('{"msg":"邮箱或密码错误","state":404}');
 
+    }
+
+    public function getCode(){
+        $phone = $this->request->param("phone");
+
+        if ($phone != ""){
+            $user = User::get(['phone'=>$phone]);
+            if ($user!=null){
+                $code = rand(1000,9999);//随机生成4位数为验证码
+//                session('?name');
+//                session($phone,null);
+//                session($phone,$code);
+                $c = new TopClient();
+                $c->appkey = "23569880";//填写自己的appke
+                $c->secretKey = "fddd045d01a730970b456d5a60de9947";//真写自己的seretKEY
+                $req = new AlibabaAliqinFcSmsNumSendRequest();
+//        $req->setExtend("123456");
+                $req->setSmsType("normal");
+                $req->setSmsFreeSignName("疯狂影院");
+                $req->setSmsParam("{\"code\":\"$code\"}");
+                $req->setRecNum($phone);
+                $req->setSmsTemplateCode("SMS_34830149");
+                $resp = $c->execute($req);
+                return json($code);
+            }else{
+                return json("no user");//没有这个用户
+            }
+        }
+    }
+
+    public function loginCode(){
+        $phone = $this->request->post("userPhone");
+        $userCode = $this->request->post("code");
+        if ($phone != "" && $userCode != ""){
+//            $code = session($phone);
+//            if ($code == $userCode){
+                $user = User::get(['phone'=>$phone]);
+                return json($user);
+//            }else{
+//                return json("code error userCode:".$userCode."  code:".$code."  ".$phone);//验证码错误
+//            }
+        }else{
+            return json("phone or code null");//用户或者验证码为空
+        }
     }
 
     public function register()
